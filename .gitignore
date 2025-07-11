@@ -1,0 +1,67 @@
+# React (frontend)
+node_modules/
+build/
+dist/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# VSCode
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Django (backend)
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+instance/
+*.mo
+*.pyc
+*.pyo
+*.pyd
+
+# Django media & static (if generated)
+media/
+staticfiles/
+static/
+
+# Python venv
+venv/
+.env/
+
+# PyCharm
+.idea/
+
+# MyPy
+.mypy_cache/
+
+# Coverage
+.coverage
+htmlcov/
+.coverage.*
+
+# Testing
+.tox/
+.pytest_cache/
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+
+# Other
+*.bak
