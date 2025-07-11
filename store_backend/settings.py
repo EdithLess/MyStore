@@ -10,8 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-from decouple import config
-
 import os
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 
