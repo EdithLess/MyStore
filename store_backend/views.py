@@ -21,6 +21,47 @@ import requests
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
+
+@api_view(['POST'])
+def populate_products(request):
+    data = [
+        {
+            "name": "Blue T-Shirt",
+            "description": "A comfy blue t-shirt",
+            "price": 19.99,
+            "image": "https://via.placeholder.com/150",
+            "category": "Clothes"
+        },
+        {
+            "name": "Gaming Mouse",
+            "description": "RGB wired gaming mouse",
+            "price": 49.99,
+            "image": "https://via.placeholder.com/150",
+            "category": "Electronics"
+        },
+        {
+            "name": "Office Chair",
+            "description": "Ergonomic office chair",
+            "price": 129.99,
+            "image": "https://via.placeholder.com/150",
+            "category": "Furniture"
+        }
+    ]
+
+    for item in data:
+        category, _ = Category.objects.get_or_create(name=item["category"])
+        Product.objects.get_or_create(
+            name=item["name"],
+            defaults={
+                "description": item["description"],
+                "price": item["price"],
+                "image": item["image"],
+                "category": category
+            }
+        )
+
+    return Response({"message": "Products populated ✅"})
+
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
