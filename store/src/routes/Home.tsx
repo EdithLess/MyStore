@@ -126,6 +126,23 @@ function Home() {
                             </button>
                         ))}
                     </div>
+                    <button
+  onClick={async () => {
+    try {
+      await fetch("https://generous-nurturing-production.up.railway.app/api/populate-products/", {
+        method: "POST",
+      });
+      alert("Products added successfully ✅");
+    } catch (error) {
+      console.error("Error populating products:", error);
+      alert("Failed to populate products ❌");
+    }
+  }}
+  className="mb-6 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded"
+>
+  📦 Populate Products
+</button>
+
                 </main>
             </div>
         </div>

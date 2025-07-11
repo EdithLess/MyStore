@@ -15,5 +15,5 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/import-products/', import_products_from_api),
     path('api/create-checkout-session/', create_checkout_session, name='create-checkout-session'),
-    path('populate-products/', populate_products),
+    path('api/populate-products/', populate_products, name='populate_products'),
 ]
