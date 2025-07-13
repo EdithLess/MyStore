@@ -23,36 +23,37 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 
-@api_view(["POST"])
+@api_view(['POST'])
 def populate_categories(request):
     try:
-        data = request.data.get("data", [])
-        for item in data:
-            fields = item["fields"]
-            Category.objects.get_or_create(name=fields["name"])
-        return Response({"message": "Categories populated successfully ✅"})
+        with open(os.path.join(os.path.dirname(__file__), 'categories.json')) as f:
+            data = json.load(f)
+            for item in data:
+                Category.objects.update_or_create(
+                    id=item["pk"],
+                    defaults=item["fields"]
+                )
+        return Response({"message": "Categories added"})
     except Exception as e:
         return Response({"error": str(e)}, status=400)
 
-@api_view(["POST"])
+@api_view(['POST'])
 def populate_products(request):
     try:
-        data = request.data.get("data", [])
-
-        # ❗ Очистити таблицю перед додаванням
-        Product.objects.all().delete()
-
-        for item in data:
-            fields = item["fields"]
-            Product.objects.create(
-                name=fields["name"],
-                price=fields["price"],
-                image=fields["image"],
-                description=fields["description"],
-                category_id=fields["category"]
-            )
-
-        return Response({"message": "Products populated successfully ✅"})
+        with open(os.path.join(os.path.dirname(__file__), 'products.json')) as f:
+            data = json.load(f)
+            for item in data:
+                Product.objects.update_or_create(
+                    id=item["pk"],
+                    defaults={
+                        "name": item["fields"]["name"],
+                        "price": item["fields"]["price"],
+                        "image": item["fields"]["image"],
+                        "description": item["fields"]["description"],
+                        "category_id": item["fields"]["category"],
+                    }
+                )
+        return Response({"message": "Products added"})
     except Exception as e:
         return Response({"error": str(e)}, status=400)
 
