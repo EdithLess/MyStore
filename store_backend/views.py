@@ -23,18 +23,16 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 
-@csrf_exempt
+@api_view(["POST"])
 def populate_categories(request):
     try:
-        file_path = os.path.join(settings.BASE_DIR, 'categories.json')
-        with open(file_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            for item in data:
-                fields = item['fields']
-                Category.objects.get_or_create(id=item['pk'], name=fields['name'])
-        return JsonResponse({'status': 'Categories added ✅'})
+        data = request.data.get("data", [])
+        for item in data:
+            fields = item["fields"]
+            Category.objects.get_or_create(name=fields["name"])
+        return Response({"message": "Categories populated successfully ✅"})
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return Response({"error": str(e)}, status=400)
 
 @csrf_exempt
 def populate_products(request):
