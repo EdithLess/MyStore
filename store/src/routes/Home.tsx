@@ -46,6 +46,26 @@ function Home() {
         navigate(`/categories/${category}`);
     };
 
+    const populateCategories = async () => {
+    try {
+        await axios.post("https://generous-nurturing-production.up.railway.app/api/populate-categories/");
+        alert("Categories added ✅");
+    } catch (err) {
+        console.error(err);
+        alert("Error adding categories ❌");
+    }
+};
+
+const populateProducts = async () => {
+    try {
+        await axios.post("https://generous-nurturing-production.up.railway.app/api/populate-products/");
+        alert("Products added ✅");
+    } catch (err) {
+        console.error(err);
+        alert("Error adding products ❌");
+    }
+};
+
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -83,6 +103,14 @@ function Home() {
                 </aside>
 
                 <main className="w-3/4 pl-4">
+                <div className="flex gap-4 mb-4">
+    <button onClick={populateCategories} className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">
+        Add Categories
+    </button>
+    <button onClick={populateProducts} className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+        Add Products
+    </button>
+</div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {currentProducts.map((product: any) => (
                             <div

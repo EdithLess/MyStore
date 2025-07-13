@@ -17,50 +17,45 @@ from rest_framework import viewsets
 from .serializers import OrderSerializer
 from rest_framework.decorators import action, permission_classes
 import requests
+import os
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 
-@api_view(['POST'])
+@csrf_exempt
+def populate_categories(request):
+    try:
+        file_path = os.path.join(settings.BASE_DIR, 'categories.json')
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            for item in data:
+                fields = item['fields']
+                Category.objects.get_or_create(id=item['pk'], name=fields['name'])
+        return JsonResponse({'status': 'Categories added ✅'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
 def populate_products(request):
-    data = [
-        {
-            "name": "Blue T-Shirt",
-            "description": "A comfy blue t-shirt",
-            "price": 19.99,
-            "image": "https://via.placeholder.com/150",
-            "category": "Clothes"
-        },
-        {
-            "name": "Gaming Mouse",
-            "description": "RGB wired gaming mouse",
-            "price": 49.99,
-            "image": "https://via.placeholder.com/150",
-            "category": "Electronics"
-        },
-        {
-            "name": "Office Chair",
-            "description": "Ergonomic office chair",
-            "price": 129.99,
-            "image": "https://via.placeholder.com/150",
-            "category": "Furniture"
-        }
-    ]
-
-    for item in data:
-        category, _ = Category.objects.get_or_create(name=item["category"])
-        Product.objects.get_or_create(
-            name=item["name"],
-            defaults={
-                "description": item["description"],
-                "price": item["price"],
-                "image": item["image"],
-                "category": category
-            }
-        )
-
-    return Response({"message": "Products populated ✅"})
+    try:
+        file_path = os.path.join(settings.BASE_DIR, 'products.json')
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            for item in data:
+                fields = item['fields']
+                category = Category.objects.get(pk=fields['category'])
+                Product.objects.get_or_create(
+                    id=item['pk'],
+                    name=fields['name'],
+                    price=fields['price'],
+                    image=fields['image'],
+                    description=fields['description'],
+                    category=category
+                )
+        return JsonResponse({'status': 'Products added ✅'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
 @csrf_exempt
 def register(request):

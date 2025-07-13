@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import register, login_view, get_products, CartViewSet, create_checkout_session, import_products_from_api, populate_products
+from .views import register, login_view, get_products, CartViewSet, create_checkout_session, import_products_from_api,populate_categories, populate_products
 
 router = DefaultRouter()
 router.register(r'cart', CartViewSet, basename='cart')
@@ -15,5 +15,6 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/import-products/', import_products_from_api),
     path('api/create-checkout-session/', create_checkout_session, name='create-checkout-session'),
-    path('api/populate-products/', populate_products, name='populate_products'),
+    path('api/populate-categories/', populate_categories),
+    path('api/populate-products/', populate_products),
 ]
