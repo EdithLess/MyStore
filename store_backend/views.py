@@ -34,26 +34,27 @@ def populate_categories(request):
     except Exception as e:
         return Response({"error": str(e)}, status=400)
 
-@csrf_exempt
+@api_view(["POST"])
 def populate_products(request):
     try:
-        file_path = os.path.join(settings.BASE_DIR, 'products.json')
-        with open(file_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            for item in data:
-                fields = item['fields']
-                category = Category.objects.get(pk=fields['category'])
-                Product.objects.get_or_create(
-                    id=item['pk'],
-                    name=fields['name'],
-                    price=fields['price'],
-                    image=fields['image'],
-                    description=fields['description'],
-                    category=category
-                )
-        return JsonResponse({'status': 'Products added ✅'})
+        data = request.data.get("data", [])
+
+        # ❗ Очистити таблицю перед додаванням
+        Product.objects.all().delete()
+
+        for item in data:
+            fields = item["fields"]
+            Product.objects.create(
+                name=fields["name"],
+                price=fields["price"],
+                image=fields["image"],
+                description=fields["description"],
+                category_id=fields["category"]
+            )
+
+        return Response({"message": "Products populated successfully ✅"})
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return Response({"error": str(e)}, status=400)
 
 @csrf_exempt
 def register(request):
