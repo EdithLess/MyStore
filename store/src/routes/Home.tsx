@@ -46,43 +46,52 @@ function Home() {
         navigate(`/categories/${category}`);
     };
 
-    const populateCategories = async () => {
-    const categoriesData = [
-        { model: "store_backend.category", pk: 1, fields: { name: "Harsh Kumar" } },
-        { model: "store_backend.category", pk: 2, fields: { name: "Electronics" } },
-        { model: "store_backend.category", pk: 3, fields: { name: "Furniture" } },
-        { model: "store_backend.category", pk: 4, fields: { name: "Shoes" } },
-        { model: "store_backend.category", pk: 5, fields: { name: "Miscellaneous" } },
-    ];
-
-    try {
-        const response = await axios.post(
-            "https://generous-nurturing-production.up.railway.app/api/populate-categories/",
-            { data: categoriesData }, // 🔸 payload
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            }
-        );
-        console.log(response.data);
-        alert("Categories added ✅");
-    } catch (err) {
-        console.error(err);
-        alert("Error adding categories ❌");
-    }
-};
-
-
 
 const populateProducts = async () => {
-    try {
-        await axios.post("https://generous-nurturing-production.up.railway.app/api/populate-products/");
-        alert("Products added ✅");
-    } catch (err) {
-        console.error(err);
-        alert("Error adding products ❌");
-    }
+  try {
+    const products = [
+  {
+    name: "Smartphone XR22",
+    price: "599.99",
+    image: "https://via.placeholder.com/150?text=Phone",
+    description: "Latest smartphone with AI camera",
+    category: 2
+  },
+  {
+    name: "Wooden Desk",
+    price: "249.99",
+    image: "https://via.placeholder.com/150?text=Desk",
+    description: "Stylish and sturdy wooden desk",
+    category: 3
+  },
+  {
+    name: "Running Shoes Pro",
+    price: "89.99",
+    image: "https://via.placeholder.com/150?text=Shoes",
+    description: "Comfortable running shoes with grip",
+    category: 4
+  },
+  {
+    name: "Bluetooth Headphones",
+    price: "129.99",
+    image: "https://via.placeholder.com/150?text=Headphones",
+    description: "Noise cancelling wireless headphones",
+    category: 2
+  },
+  {
+    name: "Minimalist Lamp",
+    price: "39.99",
+    image: "https://via.placeholder.com/150?text=Lamp",
+    description: "LED desk lamp with touch controls",
+    category: 5
+  }
+];
+    await axios.post("https://generous-nurturing-production.up.railway.app/api/populate-products/", products);
+    alert("✅ Products added!");
+  } catch (err) {
+    console.error(err);
+    alert("❌ Failed to add products");
+  }
 };
 
     const indexOfLastProduct = currentPage * productsPerPage;
@@ -123,12 +132,6 @@ const populateProducts = async () => {
 
                 <main className="w-3/4 pl-4">
                 <div className="flex gap-4 mb-4">
-    <button
-    onClick={populateCategories}
-    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mb-4"
->
-    Populate Categories
-</button>
     <button onClick={populateProducts} className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
         Add Products
     </button>

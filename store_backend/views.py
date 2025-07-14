@@ -24,37 +24,22 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 @api_view(['POST'])
-def populate_categories(request):
-    try:
-        with open(os.path.join(os.path.dirname(__file__), 'categories.json')) as f:
-            data = json.load(f)
-            for item in data:
-                Category.objects.update_or_create(
-                    id=item["pk"],
-                    defaults=item["fields"]
-                )
-        return Response({"message": "Categories added"})
-    except Exception as e:
-        return Response({"error": str(e)}, status=400)
-
-@api_view(['POST'])
 def populate_products(request):
     try:
         Product.objects.all().delete()
-        with open(os.path.join(os.path.dirname(__file__), 'products.json')) as f:
-            data = json.load(f)
-            for item in data:
-                Product.objects.create(
-                    id=item["pk"],
-                    name=item["fields"]["name"],
-                    price=item["fields"]["price"],
-                    image=item["fields"]["image"],
-                    description=item["fields"]["description"],
-                    category_id=item["fields"]["category"],
-                )
-        return Response({"message": "✅ Products reset and loaded"})
+        products = request.data
+        for item in products:
+            Product.objects.create(
+                name=item["name"],
+                price=item["price"],
+                image=item["image"],
+                description=item["description"],
+                category_id=item["category"],
+            )
+        return Response({"message": "✅ Products added from frontend"})
     except Exception as e:
         return Response({"error": str(e)}, status=400)
+
 
 @csrf_exempt
 def register(request):
