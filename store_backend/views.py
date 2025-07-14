@@ -40,20 +40,19 @@ def populate_categories(request):
 @api_view(['POST'])
 def populate_products(request):
     try:
+        Product.objects.all().delete()
         with open(os.path.join(os.path.dirname(__file__), 'products.json')) as f:
             data = json.load(f)
             for item in data:
-                Product.objects.update_or_create(
+                Product.objects.create(
                     id=item["pk"],
-                    defaults={
-                        "name": item["fields"]["name"],
-                        "price": item["fields"]["price"],
-                        "image": item["fields"]["image"],
-                        "description": item["fields"]["description"],
-                        "category_id": item["fields"]["category"],
-                    }
+                    name=item["fields"]["name"],
+                    price=item["fields"]["price"],
+                    image=item["fields"]["image"],
+                    description=item["fields"]["description"],
+                    category_id=item["fields"]["category"],
                 )
-        return Response({"message": "Products added"})
+        return Response({"message": "✅ Products reset and loaded"})
     except Exception as e:
         return Response({"error": str(e)}, status=400)
 
