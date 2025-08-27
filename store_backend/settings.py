@@ -10,8 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from dotenv import load_dotenv
+import dj_database_url
 import os
-STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+
+
+load_dotenv()
 
 from pathlib import Path
 
@@ -89,6 +93,10 @@ WSGI_APPLICATION = 'store_backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+
+# DATABASES = {
+#     "default": dj_database_url.parse(os.getenv("DATABASE_URL"))
+# }
 
 DATABASES = {
     'default': {

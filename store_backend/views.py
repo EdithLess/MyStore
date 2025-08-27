@@ -19,7 +19,7 @@ from rest_framework.decorators import action, permission_classes
 import requests
 import os
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
 
 
@@ -159,50 +159,25 @@ class CartViewSet(viewsets.ViewSet):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_checkout_session(request):
-    user = request.user
-
     try:
-        order = Order.objects.get(user=user, is_paid=False)
-        order_items = OrderItem.objects.filter(order=order)
-
-        # Розрахунок загальної суми
-        total_amount = 0
-        line_items = []
-
-        for item in order_items:
-            product = item.product
-            quantity = item.quantity
-            price = int(product.price * 100)
-            total_amount += price * quantity
-
-            line_items.append({
+        # тестові дані — спробуй спочатку так
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            mode='payment',
+            line_items=[{
                 'price_data': {
                     'currency': 'usd',
                     'product_data': {
-                        'name': product.name,
+                        'name': 'Test Product',
                     },
-                    'unit_amount': price,
+                    'unit_amount': 2000,  # 20.00$
                 },
-                'quantity': quantity,
-            })
-
-        if total_amount == 0:
-            return Response({'error': 'Cart is empty'}, status=400)
-
-        # Stripe сесія
-        session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
-            line_items=line_items,
-            mode='payment',
-            success_url='http://localhost:5173/success',
-            cancel_url='http://localhost:5173/cancel',
+                'quantity': 1,
+            }],
+            success_url="http://localhost:3000/success",
+            cancel_url="http://localhost:3000/cancel",
         )
-
-        return Response({'url': session.url})
-
-    except Order.DoesNotExist:
-        return Response({'error': 'Cart not found'}, status=404)
+        return Response({"url": checkout_session.url})
     except Exception as e:
-        return Response({'error': str(e)}, status=500)
-    
-
+        print("❌ Stripe error:", str(e))
+        return Response({"error": str(e)}, status=500)
