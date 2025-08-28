@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-&$t81*@%$3yw%+907dzvc_(c%4zxw_b5v1802b1hftx&2*5crn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mystore-production-10a7.up.railway.app','localhost', '127.0.0.1',]
+ALLOWED_HOSTS = ['mystore-production-10a7.up.railway.app', 'mystore-n3gb.onrender.com','localhost', '127.0.0.1',]
 
 
 # Application definition
@@ -94,16 +94,16 @@ WSGI_APPLICATION = 'store_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     "default": dj_database_url.parse(os.getenv("DATABASE_URL"))
-# }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.parse(os.getenv("DATABASE_URL"))
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
