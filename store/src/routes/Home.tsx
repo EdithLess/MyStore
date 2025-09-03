@@ -10,7 +10,7 @@ function Home() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:8000/api/products/")
+        axios.get(`https://mystore-n3gb.onrender.com/api/products/`)
             .then((response) => setProducts(response.data))
             .catch((error) => console.error("Error fetching products:", error));
     }, []);
