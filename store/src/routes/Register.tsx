@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const back_url="https://mystore-n3gb.onrender.com/"
+// const origin="http://localhost:8000/api/register/"
 
 function Register() {
     const [username, setUsername] = useState("");
@@ -12,7 +14,7 @@ function Register() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/api/register/', {
+            const response = await axios.post(`${back_url}api/register/`, {
                 username,
                 email,
                 password

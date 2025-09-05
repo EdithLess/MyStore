@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import axios from "axios";
+const back_url="https://mystore-n3gb.onrender.com/"
 
 function ProductList() {
     useEffect(() => {
-        axios.get("http://127.0.0.1:8000/api/products/")
+        axios.get(`${back_url}api/products/`)
             .then((response) => {
                 console.log("Products:", response.data);
             })

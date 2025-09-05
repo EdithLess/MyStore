@@ -1,4 +1,5 @@
 import axios from "axios";
+const back_url="https://mystore-n3gb.onrender.com/"
 
 function CheckoutButton() {
   const handleCheckout = async () => {
@@ -9,7 +10,7 @@ function CheckoutButton() {
     }
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/create-checkout-session/", {}, {
+      const res = await axios.post(`${back_url}api/create-checkout-session/`, {}, {
         headers: {
           Authorization: `Token ${token}`,
         },

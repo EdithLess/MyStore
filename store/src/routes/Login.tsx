@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext"; 
+const back_url="https://mystore-n3gb.onrender.com/"
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -15,7 +16,7 @@ function Login() {
         e.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:8000/api/login/", {
+            const response = await axios.post(`${back_url}api/login/`, {
                 username,
                 password,
             });

@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+const back_url="https://mystore-n3gb.onrender.com/"
 
 function CategoryPage() {
     const { categoryName } = useParams();
     const [filteredProducts, setFilteredProducts] = useState([]);
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:8000/api/products/")
+        axios.get(`${back_url}api/products/`)
             .then((response) => {
                 const allProducts = response.data;
                 allProducts.filter((product: any) => console.log(product))

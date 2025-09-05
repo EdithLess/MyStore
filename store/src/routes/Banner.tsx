@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+const back_url="https://mystore-n3gb.onrender.com/"
 
 type Slide = {
   image: string;
@@ -13,7 +14,7 @@ export default function Banner() {
   // забираємо перші 5 товарів‑картинок
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/products/?limit=5")
+      .get(`${back_url}api/products/?limit=5`)
       .then((res) => {
         const picked = res.data.slice(0, 5).map((p: any) => ({
           image: p.image,

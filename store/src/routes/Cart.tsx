@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CheckoutButton from "./CheckoutButton";
+const back_url="https://mystore-n3gb.onrender.com/"
 
 function Cart() {
     const [order, setOrder] = useState<any>(null);
@@ -14,7 +15,7 @@ function Cart() {
         }
 
         try {
-            const response = await axios.get("http://127.0.0.1:8000/api/cart/", {
+            const response = await axios.get(`${back_url}api/cart/`, {
                 headers: {
                     Authorization: `Token ${token}`
                 }

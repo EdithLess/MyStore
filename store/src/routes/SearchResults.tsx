@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+const back_url="https://mystore-n3gb.onrender.com/"
 
 function SearchResults() {
   const [results, setResults] = useState([]);
@@ -11,7 +12,7 @@ function SearchResults() {
 
   useEffect(() => {
     if (query) {
-      axios.get("http://127.0.0.1:8000/api/products/")
+      axios.get(`${back_url}api/products/`)
         .then((res) => {
           const filtered = res.data.filter((product: any) =>
             product.name.toLowerCase().includes(query.toLowerCase())
