@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
+from django.core.management import call_command
 from django.views.decorators.csrf import csrf_exempt
 import json
 from rest_framework import status
@@ -20,6 +21,14 @@ import requests
 import os
 
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+
+
+def load_fixture(request):
+    try:
+        call_command("loaddata", "store_backend/fixtures/db.json")
+        return JsonResponse({"status": "ok", "message": "Дані успішно завантажено"})
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)})
 
 
 
