@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
-from django.core.management import call_command
 from django.views.decorators.csrf import csrf_exempt
 import json
 from rest_framework import status
@@ -21,15 +20,6 @@ import requests
 import os
 
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
-
-
-def load_fixture(request):
-    try:
-        call_command("loaddata", "store_backend/fixtures/db.json")
-        return JsonResponse({"status": "ok", "message": "Дані успішно завантажено"})
-    except Exception as e:
-        return JsonResponse({"status": "error", "message": str(e)})
-
 
 
 @api_view(['POST'])
@@ -169,7 +159,6 @@ class CartViewSet(viewsets.ViewSet):
 @permission_classes([IsAuthenticated])
 def create_checkout_session(request):
     try:
-        # тестові дані — спробуй спочатку так
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             mode='payment',
@@ -183,8 +172,8 @@ def create_checkout_session(request):
                 },
                 'quantity': 1,
             }],
-            success_url="http://localhost:3000/success",
-            cancel_url="http://localhost:3000/cancel",
+            success_url="https://mystore-n3gb.onrender.com/success",
+            cancel_url="https://mystore-n3gb.onrender.com/cancel",
         )
         return Response({"url": checkout_session.url})
     except Exception as e:
