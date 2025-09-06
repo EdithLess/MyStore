@@ -16,5 +16,4 @@ urlpatterns = [
     path('api/import-products/', import_products_from_api),
     path('api/create-checkout-session/', create_checkout_session, name='create-checkout-session'),
     path('api/populate-products/', populate_products),
-    path("load-data/", load_fixture, name="load-data"),
 ]
