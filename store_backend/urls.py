@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import register, login_view, get_products, CartViewSet, create_checkout_session, import_products_from_api,populate_products, load_fixture
+from .views import register, login_view, get_products, CartViewSet, create_checkout_session, import_products_from_api,populate_products
 
 router = DefaultRouter()
 router.register(r'cart', CartViewSet, basename='cart')
