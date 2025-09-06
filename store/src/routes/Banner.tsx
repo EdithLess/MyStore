@@ -11,7 +11,6 @@ export default function Banner() {
   const [slides, setSlides] = useState<Slide[]>([]);
   const [current, setCurrent] = useState(0);
 
-  // забираємо перші 5 товарів‑картинок
   useEffect(() => {
     axios
       .get(`${back_url}api/products/?limit=5`)

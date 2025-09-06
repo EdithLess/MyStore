@@ -23,7 +23,7 @@ function Home() {
                 return;
             }
 
-            await axios.post("http://127.0.0.1:8000/api/cart/", {
+            await axios.post("https://mystore-n3gb.onrender.com/api/cart/", {
                 product_id: productId
             }, {
                 headers: {
@@ -46,53 +46,6 @@ function Home() {
         navigate(`/categories/${category}`);
     };
 
-
-const populateProducts = async () => {
-  try {
-    const products = [
-  {
-    name: "Smartphone XR22",
-    price: "599.99",
-    image: "https://via.placeholder.com/150?text=Phone",
-    description: "Latest smartphone with AI camera",
-    category: 2
-  },
-  {
-    name: "Wooden Desk",
-    price: "249.99",
-    image: "https://via.placeholder.com/150?text=Desk",
-    description: "Stylish and sturdy wooden desk",
-    category: 3
-  },
-  {
-    name: "Running Shoes Pro",
-    price: "89.99",
-    image: "https://via.placeholder.com/150?text=Shoes",
-    description: "Comfortable running shoes with grip",
-    category: 4
-  },
-  {
-    name: "Bluetooth Headphones",
-    price: "129.99",
-    image: "https://via.placeholder.com/150?text=Headphones",
-    description: "Noise cancelling wireless headphones",
-    category: 2
-  },
-  {
-    name: "Minimalist Lamp",
-    price: "39.99",
-    image: "https://via.placeholder.com/150?text=Lamp",
-    description: "LED desk lamp with touch controls",
-    category: 5
-  }
-];
-    await axios.post("https://generous-nurturing-production.up.railway.app/api/populate-products/", products);
-    alert("✅ Products added!");
-  } catch (err) {
-    console.error(err);
-    alert("❌ Failed to add products");
-  }
-};
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -132,9 +85,6 @@ const populateProducts = async () => {
 
                 <main className="w-3/4 pl-4">
                 <div className="flex gap-4 mb-4">
-    <button onClick={populateProducts} className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
-        Add Products
-    </button>
 </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {currentProducts.map((product: any) => (

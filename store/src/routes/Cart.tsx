@@ -36,7 +36,7 @@ function Cart() {
                 return;
             }
 
-            await axios.delete("http://127.0.0.1:8000/api/cart/remove/", {
+            await axios.delete(`${back_url}api/cart/remove/`, {
                 headers: {
                     Authorization: `Token ${token}`
                 },
